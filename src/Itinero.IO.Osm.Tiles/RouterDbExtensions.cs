@@ -42,7 +42,7 @@ namespace Itinero.IO.Osm.Tiles
         /// </summary>
         /// <param name="db">The routerdb to fill.</param>
         /// <param name="box">The bounding box to fetch tiles for.</param>
-        public static void LoadOsmTilesData(this RouterDb db, Box box, bool keepGlobalIds = true, VehicleCache vehicleCache = null)
+        public static void LoadOsmDataFromTiles(this RouterDb db, Box box, bool keepGlobalIds = true, VehicleCache vehicleCache = null)
         {
             // build the tile range.
             var tileRange = new TileRange(box, Zoom);
