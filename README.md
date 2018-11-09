@@ -17,3 +17,7 @@ routerDb.LoadOsmDataFromTiles(new Box(51.179773424875634f, 4.5366668701171875f,
    
 // routing code here!
 ```
+
+This results in this network begin loaded:
+
+![usage](docs/usage1.png)
