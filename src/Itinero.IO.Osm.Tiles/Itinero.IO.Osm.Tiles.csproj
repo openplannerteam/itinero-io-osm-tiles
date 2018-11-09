@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Itinero.IO.Osm" Version="1.4.0-pre85" />
+      <PackageReference Include="NetTopologySuite.IO.GeoJSON" Version="1.15.0" />
+    </ItemGroup>
+
+</Project>
