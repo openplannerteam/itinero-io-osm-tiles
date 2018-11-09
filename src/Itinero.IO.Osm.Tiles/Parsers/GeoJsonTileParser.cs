@@ -27,7 +27,7 @@ namespace Itinero.IO.Osm.Tiles.Parsers
         private static string Vertex1AttributeName = "vertex1";
         private static string Vertex2AttributeName = "vertex2";
 
-        private static GeoJsonSerializer GeoJsonSerializer = (GeoJsonSerializer)GeoJsonSerializer.Create();
+        private static JsonSerializer GeoJsonSerializer = NetTopologySuite.IO.GeoJsonSerializer.Create();
         
         /// <summary>
         /// Adds data from an individual tile.
@@ -46,6 +46,9 @@ namespace Itinero.IO.Osm.Tiles.Parsers
 
             var features =
                 GeoJsonSerializer.Deserialize<FeatureCollection>(new JsonTextReader(new StreamReader(stream)));
+
+            Logger.Log(nameof(GeoJsonTileParser), Logging.TraceEventType.Information,
+                $"Loading tile {tile}");
             
             var localIdMap = new Dictionary<long, uint>();
             var network = routerDb.Network;
@@ -71,20 +74,18 @@ namespace Itinero.IO.Osm.Tiles.Parsers
                     var name = names[i];
                     if (name == Vertex1AttributeName)
                     {
-                        if (values[i].TryParseGlobalId(out global1))
+                        if (!values[i].TryParseGlobalId(out global1))
                         {
                             global1 = Constants.GLOBAL_ID_EMPTY;
                         }
-
                         continue;
                     }
                     if (name == Vertex2AttributeName)
                     {
-                        if (values[i].TryParseGlobalId(out global2))
+                        if (!values[i].TryParseGlobalId(out global2))
                         {
                             global2 = Constants.GLOBAL_ID_EMPTY;
                         }
-
                         continue;
                     }
                     
@@ -121,13 +122,10 @@ namespace Itinero.IO.Osm.Tiles.Parsers
                 {
                     if (!localIdMap.TryGetValue(global1, out vertex1))
                     {
-                        vertex1 = Itinero.Constants.NO_VERTEX;
-                    
-                        if (vertex1 == Itinero.Constants.NO_VERTEX)
-                        { // no vertex yet, create one.
-                            vertex1 = network.VertexCount;
-                            network.AddVertex(vertex1, vertex1Location.Latitude, vertex1Location.Longitude);
-                        }
+                        // no vertex yet, create one.
+                        vertex1 = network.VertexCount;
+                        network.AddVertex(vertex1, vertex1Location.Latitude, vertex1Location.Longitude);
+                        localIdMap[global1] = vertex1;
                     }
                 }
                 var vertex2Global = false;
@@ -138,15 +136,12 @@ namespace Itinero.IO.Osm.Tiles.Parsers
                 }
                 else
                 {
-                    if (!localIdMap.TryGetValue(global1, out vertex2))
+                    if (!localIdMap.TryGetValue(global2, out vertex2))
                     {
-                        vertex2 = Itinero.Constants.NO_VERTEX;
-                    
-                        if (vertex2 == Itinero.Constants.NO_VERTEX)
-                        { // no vertex yet, create one.
-                            vertex2 = network.VertexCount;
-                            network.AddVertex(vertex2, vertex2Location.Latitude, vertex2Location.Longitude);
-                        }
+                        // no vertex yet, create one.
+                        vertex2 = network.VertexCount;
+                        network.AddVertex(vertex2, vertex2Location.Latitude, vertex2Location.Longitude);
+                        localIdMap[global2] = vertex2;
                     }
                 }
                 
@@ -154,6 +149,13 @@ namespace Itinero.IO.Osm.Tiles.Parsers
                 if (vertex1Global || vertex2Global)
                 { // edge was already added in another tile.
                     continue;
+                }
+                
+                // add vertices to the global map if one of them is outside.
+                if (vertex1Outside || vertex2Outside)
+                {
+                    globalIdMap.Set(global1, vertex1);
+                    globalIdMap.Set(global2, vertex2);
                 }
                 
                 // add the edge if the attributes are of use to the vehicles defined.
@@ -184,7 +186,7 @@ namespace Itinero.IO.Osm.Tiles.Parsers
                 if (!vehicleCache.AnyCanTraverse(profileTags))
                 {
                     // way has some use, add all of it's nodes to the index.
-                    return;
+                    continue;
                 }
 
                 // get profile and meta-data id's.
@@ -226,6 +228,11 @@ namespace Itinero.IO.Osm.Tiles.Parsers
                 }
                 shape.RemoveAt(0);
                 shape.RemoveAt(shape.Count - 1);
+
+                if (distance > Itinero.Constants.DefaultMaxEdgeDistance)
+                {
+                    distance = Itinero.Constants.DefaultMaxEdgeDistance;
+                }
                 
                 network.AddEdge(vertex1, vertex2, new Data.Network.Edges.EdgeData()
                 {
@@ -238,14 +245,37 @@ namespace Itinero.IO.Osm.Tiles.Parsers
 
         internal static bool TryParseGlobalId(this object value, out long globalId)
         {
+            if (value is int intValue)
+            {
+                globalId = intValue;
+                return true;
+            }
+            else if (value is long longValue)
+            {
+                globalId = longValue;
+                return true;
+            }
+
+            if (value != null &&
+                long.TryParse(value.ToString(), out globalId))
+            {
+                return true;
+            }
+
             globalId = 0;
             return false;
         }
 
         internal static bool TryParseAttributeValue(this object value, out string attribute)
         {
-            attribute = string.Empty;
-            return false;
+            if (value == null)
+            {
+                attribute = string.Empty;
+                return true;
+            }
+
+            attribute = value.ToString();
+            return true;
         }
     }
 }

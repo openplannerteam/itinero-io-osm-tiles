@@ -190,7 +190,7 @@ namespace Itinero.IO.Osm.Tiles
             return !(this.Top <= location.Latitude || 
                 this.Bottom >= location.Latitude ||
                 this.Left >= location.Longitude || 
-                this.Right <= location.Latitude);
+                this.Right <= location.Longitude);
         }
 
         public override string ToString()

@@ -5,7 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Itinero.IO.Osm" Version="1.4.0-pre85" />
+      <PackageReference Include="Itinero.IO.Osm" Version="1.4.0-pre89" />
       <PackageReference Include="NetTopologySuite.IO.GeoJSON" Version="1.15.0" />
     </ItemGroup>
 

@@ -9,4 +9,8 @@
       <ProjectReference Include="..\..\src\Itinero.IO.Osm.Tiles\Itinero.IO.Osm.Tiles.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Itinero.IO.Shape" Version="1.4.0-pre89" />
+    </ItemGroup>
+
 </Project>
