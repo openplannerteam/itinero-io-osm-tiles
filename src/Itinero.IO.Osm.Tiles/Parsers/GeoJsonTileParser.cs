@@ -44,8 +44,18 @@ namespace Itinero.IO.Osm.Tiles.Parsers
                 return;
             }
 
-            var features =
-                GeoJsonSerializer.Deserialize<FeatureCollection>(new JsonTextReader(new StreamReader(stream)));
+            FeatureCollection features = null;
+            try
+            {
+                features =
+                    GeoJsonSerializer.Deserialize<FeatureCollection>(new JsonTextReader(new StreamReader(stream)));
+            }
+            catch (Exception ex)
+            {
+                Logging.Logger.Log(nameof(GeoJsonTileParser), TraceEventType.Error, 
+                    $"Cannot parse content of tile {tile}: {ex}");
+                return;
+            }
 
             Logger.Log(nameof(GeoJsonTileParser), Logging.TraceEventType.Information,
                 $"Loading tile {tile}");
