@@ -11,6 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{A5C8A40A-3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Itinero.IO.Osm.Tiles.Test.Functional", "test\Itinero.IO.Osm.Tiles.Test.Functional\Itinero.IO.Osm.Tiles.Test.Functional.csproj", "{39770F94-6561-4D52-901C-E1A335EB4938}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "root", "root", "{45BAEFE2-27C7-4AAF-A3E8-866F1F93490D}"
+ProjectSection(SolutionItems) = preProject
+	Itinero.IO.Osm.Tiles.sln = Itinero.IO.Osm.Tiles.sln
+	README.md = README.md
+	.gitignore = .gitignore
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
