@@ -16,6 +16,7 @@ ProjectSection(SolutionItems) = preProject
 	Itinero.IO.Osm.Tiles.sln = Itinero.IO.Osm.Tiles.sln
 	README.md = README.md
 	.gitignore = .gitignore
+	SharedAssemblyVersion.cs = SharedAssemblyVersion.cs
 EndProjectSection
 EndProject
 Global

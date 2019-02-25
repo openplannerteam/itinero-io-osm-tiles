@@ -36,13 +36,16 @@ namespace Itinero.IO.Osm.Tiles
         /// The default zoom level to fetch tiles at.
         /// </summary>
         internal static int Zoom = 14;
-        
+
         /// <summary>
         /// Loads all OSM data in the given bounding box by using routable tiles.
         /// </summary>
         /// <param name="db">The routerdb to fill.</param>
         /// <param name="box">The bounding box to fetch tiles for.</param>
-        public static void LoadOsmDataFromTiles(this RouterDb db, Box box, bool keepGlobalIds = true, VehicleCache vehicleCache = null)
+        /// <param name="keepGlobalIds">Flag to keep the global ids.</param>
+        /// <param name="baseUrl">The base url of the routeable tile source.</param>
+        /// <param name="vehicleCache">The vehicle cache to use.</param>
+        public static void LoadOsmDataFromTiles(this RouterDb db, Box box, string baseUrl = TileParser.BaseUrl, bool keepGlobalIds = true, VehicleCache vehicleCache = null)
         {
             // build the tile range.
             var tileRange = new TileRange(box, Zoom);
@@ -58,7 +61,7 @@ namespace Itinero.IO.Osm.Tiles
             db.Network.GeometricGraph.Graph.MarkAsMulti(); // when loading data we need a multigraph.
             foreach (var tile in tileRange)
             {
-                db.AddOsmTile(globalIdMap, tile);
+                db.AddOsmTile(globalIdMap, tile, vehicleCache, baseUrl);
             }
             
             // keep global ids if it's a requirement.

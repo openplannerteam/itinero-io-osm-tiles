@@ -1,12 +1,35 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <title>Itinero.IO.Osm.Tiles</title>
+        <AssemblyName>Itinero.IO.Osm.Tiles</AssemblyName>
+        <Description>A library to load routeable tiles into Itinero.</Description>
+        <Summary>A library to load routeable tiles into Itinero.</Summary>
+        <ReleaseNotes>TransitDB EAS</ReleaseNotes>
+        <Authors>Ben Abelshausen;openplannerteam;</Authors>
+        <PackageId>Itinero.IO.Osm.Tiles</PackageId>
+        <PackageTags>routing;linked-data;</PackageTags>
         <TargetFramework>netstandard2.0</TargetFramework>
+        <PackageIconUrl>http://www.itinero.tech/logos/itinero_logo_notext.svg.128.png</PackageIconUrl>
+        <PackageProjectUrl>https://www.itinero.tech</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/itinero/itinero-io-osm-tiles</RepositoryUrl>
+        <PackageLicenseUrl>https://github.com/itinero/itinero-io-osm-tiles/blob/master/LICENSE</PackageLicenseUrl>
+        <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+        <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+        <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+        <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+        <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Itinero.IO.Osm" Version="1.4.0-pre89" />
-      <PackageReference Include="NetTopologySuite.IO.GeoJSON" Version="1.15.0" />
+      <PackageReference Include="Itinero.IO.Osm" Version="1.4.0-pre96" />
+      <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Include="..\..\SharedAssemblyVersion.cs">
+        <Link>SharedAssemblyVersion.cs</Link>
+      </Compile>
     </ItemGroup>
 
 </Project>

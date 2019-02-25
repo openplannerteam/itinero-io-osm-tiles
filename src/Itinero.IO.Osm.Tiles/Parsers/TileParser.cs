@@ -18,16 +18,18 @@ namespace Itinero.IO.Osm.Tiles.Parsers
         /// <summary>
         /// The base url to fetch the tiles from.
         /// </summary>
-        private static string BaseUrl = "https://tiles.openplanner.team/planet";    
-        
+        public const string BaseUrl = "https://tiles.openplanner.team/planet";
+
         /// <summary>
         /// Adds data from an individual tile.
         /// </summary>
         /// <param name="routerDb">The router db to fill.</param>
         /// <param name="globalIdMap">The global id map.</param>
         /// <param name="tile">The tile to load.</param>
+        /// <param name="baseUrl">The base url of the routeable tile source.</param>
+        /// <param name="vehicleCache">The vehicle cache.</param>
         internal static void AddOsmTile(this RouterDb routerDb, GlobalIdMap globalIdMap, Tile tile,
-            VehicleCache vehicleCache = null)
+            VehicleCache vehicleCache = null, string baseUrl = BaseUrl)
         {
             var url = BaseUrl + $"/{tile.Zoom}/{tile.X}/{tile.Y}";
             var stream = Download.DownloadHelper.Download(url);
