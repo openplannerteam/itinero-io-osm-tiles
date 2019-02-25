@@ -22,8 +22,8 @@ namespace Itinero.IO.Osm.Tiles.Test.Functional
             routerDb.AddSupportedVehicle(Itinero.Osm.Vehicles.Vehicle.Car);
             
             // start loading tiles.
-            routerDb.LoadOsmDataFromTiles(new Box(50.838250952911224f, 4.633140563964844f,
-                50.90768759031497f, 4.7742462158203125f));
+            routerDb.LoadOsmDataFromTiles(new Box(51.265271575597446f, 4.793086051940918f,
+                51.24195743492624f, 4.748368263244629f));
             
             // write as shapefile for testing.
             routerDb.WriteToShape("shapefile", routerDb.GetSupportedProfiles().ToArray());
