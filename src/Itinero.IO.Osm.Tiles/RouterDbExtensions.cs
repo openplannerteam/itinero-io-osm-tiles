@@ -51,10 +51,7 @@ namespace Itinero.IO.Osm.Tiles
             var tileRange = new TileRange(box, Zoom);
             
             // build the vehicle cache.
-            if (vehicleCache == null)
-            {
-                vehicleCache = new VehicleCache(db.GetSupportedVehicles().ToArray());
-            }
+            if (vehicleCache == null) vehicleCache = new VehicleCache(db.GetSupportedVehicles().ToArray());
 
             // get all the tiles and build the routerdb.
             var globalIdMap = db.ExtractGlobalIds();

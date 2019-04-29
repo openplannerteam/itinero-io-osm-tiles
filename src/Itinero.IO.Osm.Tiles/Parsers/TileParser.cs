@@ -31,7 +31,7 @@ namespace Itinero.IO.Osm.Tiles.Parsers
         internal static void AddOsmTile(this RouterDb routerDb, GlobalIdMap globalIdMap, Tile tile,
             VehicleCache vehicleCache = null, string baseUrl = BaseUrl)
         {
-            var url = BaseUrl + $"/{tile.Zoom}/{tile.X}/{tile.Y}";
+            var url = baseUrl + $"/{tile.Zoom}/{tile.X}/{tile.Y}";
             var stream = Download.DownloadHelper.Download(url);
             if (stream == null)
             {
@@ -242,6 +242,10 @@ namespace Itinero.IO.Osm.Tiles.Parsers
                                 shape.Add(nodeLocation);
                             }
                         }
+                    }
+                    else if (id.StartsWith("http://www.openstreetmap.org/relation/"))
+                    {
+                        Console.WriteLine(id);
                     }
                 }
             }
