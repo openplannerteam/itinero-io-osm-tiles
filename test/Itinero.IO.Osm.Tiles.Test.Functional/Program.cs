@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using Itinero.IO.Osm.Tiles.Parsers;
 using Itinero.IO.Shape;
 using Itinero.LocalGeo;
 
@@ -15,17 +16,20 @@ namespace Itinero.IO.Osm.Tiles.Test.Functional
                 Console.WriteLine($"[{o}] {level} - {message}");
             };
             
-            // create a routerdb.
+            // do some local caching.
+            TileParser.DownloadFunc = DownloadHelper.Download;
+            
+            // create a router db.
             var routerDb = new RouterDb();
             
             // specify what vehicles it should support.
             routerDb.AddSupportedVehicle(Itinero.Osm.Vehicles.Vehicle.Car);
             
             // start loading tiles.
-            routerDb.LoadOsmDataFromTiles(new Box(50.865236286815914f, 4.6746826171875f,
-                50.89253085119355f, 4.724636077880859f), baseUrl: "https://tiles.openplanner.team/staging");
+            routerDb.LoadOsmDataFromTiles(new Box(50.25f, 3.8f,
+                51.42f, 6.16f));
             
-            // write as shapefile for testing.
+            // write as shape file for testing.
             routerDb.WriteToShape("shapefile", routerDb.GetSupportedProfiles().ToArray());
             
             // calculate route.

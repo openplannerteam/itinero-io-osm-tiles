@@ -5,7 +5,6 @@
         <AssemblyName>Itinero.IO.Osm.Tiles</AssemblyName>
         <Description>A library to load routeable tiles into Itinero.</Description>
         <Summary>A library to load routeable tiles into Itinero.</Summary>
-        <ReleaseNotes>TransitDB EAS</ReleaseNotes>
         <Authors>Ben Abelshausen;openplannerteam;</Authors>
         <PackageId>Itinero.IO.Osm.Tiles</PackageId>
         <PackageTags>routing;linked-data;</PackageTags>
@@ -22,10 +21,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Itinero.IO.Osm" Version="1.4.0-pre96" />
+      <PackageReference Include="Itinero.IO.Osm" Version="1.5.0" />
       <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
     </ItemGroup>
 
+    <ItemGroup>
+        <None Remove="ontology\mapping_config.json" />
+        <EmbeddedResource Include="ontology\mapping_config.json" />
+    </ItemGroup>
     <ItemGroup>
       <Compile Include="..\..\SharedAssemblyVersion.cs">
         <Link>SharedAssemblyVersion.cs</Link>

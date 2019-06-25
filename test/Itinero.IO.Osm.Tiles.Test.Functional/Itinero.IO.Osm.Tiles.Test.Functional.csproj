@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
@@ -11,6 +11,10 @@
 
     <ItemGroup>
       <PackageReference Include="Itinero.IO.Shape" Version="1.4.0-pre89" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="cache" />
     </ItemGroup>
 
 </Project>

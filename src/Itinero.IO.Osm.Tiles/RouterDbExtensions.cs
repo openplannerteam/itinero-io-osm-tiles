@@ -23,6 +23,7 @@ using Itinero.Algorithms.Search.Hilbert;
 using Itinero.Data;
 using Itinero.IO.Osm.Tiles.Parsers;
 using Itinero.LocalGeo;
+using Itinero.Logging;
 using Itinero.Profiles;
 
 namespace Itinero.IO.Osm.Tiles
@@ -56,8 +57,13 @@ namespace Itinero.IO.Osm.Tiles
             // get all the tiles and build the routerdb.
             var globalIdMap = db.ExtractGlobalIds();
             db.Network.GeometricGraph.Graph.MarkAsMulti(); // when loading data we need a multigraph.
-            foreach (var tile in tileRange)
+            var tiles = tileRange.ToList();
+            for (var t = 0; t < tiles.Count; t++)
             {
+                var tile = tiles[t];
+                
+                Logger.Log(nameof(RouterDbExtensions), Logging.TraceEventType.Information,
+                    $"Loading tile {t+1}/{tiles.Count}: {tile}({tile.LocalId})");
                 db.AddOsmTile(globalIdMap, tile, vehicleCache, baseUrl);
             }
             
